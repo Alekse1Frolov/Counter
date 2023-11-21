@@ -9,17 +9,17 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    var counterScore: UInt = 0
+    private var counterScore: UInt = 0
 
-    @IBOutlet weak var counterLabel: UILabel!
+    @IBOutlet private weak var counterLabel: UILabel!
     
-    @IBOutlet weak var plusButton: UIButton!
+    @IBOutlet private weak var plusButton: UIButton!
     
-    @IBOutlet weak var minusButton: UIButton!
+    @IBOutlet private weak var minusButton: UIButton!
     
-    @IBOutlet weak var dropCounterButton: UIButton!
+    @IBOutlet private weak var dropCounterButton: UIButton!
     
-    @IBOutlet weak var logsField: UITextView!
+    @IBOutlet private weak var logsField: UITextView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,13 +31,24 @@ class ViewController: UIViewController {
         logsField.isEditable = false
     }
     
-    @IBAction func plusButtonTap(_ sender: Any) {
+    private func formateDateToString(date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd.MM.yyyy HH:mm:ss"
+        return formatter.string(from: date)
+    }
+    
+    private func addInfoInHistory(info: String) -> Void {
+        let additionInfo = "\(formateDateToString(date: Date())) - \(info)\n"
+        logsField.insertText(additionInfo)
+    }
+    
+    @IBAction private func plusButtonTap(_ sender: Any) {
         counterScore += 1
         counterLabel.text = "\(counterScore)"
         addInfoInHistory(info: "значение увеличено на +1")
     }
     
-    @IBAction func minusButtonTap(_ sender: Any) {
+    @IBAction private func minusButtonTap(_ sender: Any) {
         if counterScore > 0 {
             counterScore -= 1
             counterLabel.text = "\(counterScore)"
@@ -47,21 +58,10 @@ class ViewController: UIViewController {
         }
     }
     
-    @IBAction func dropCounterScore(_ sender: Any) {
+    @IBAction private func dropCounterScore(_ sender: Any) {
         counterScore = 0
         counterLabel.text = "\(counterScore)"
         addInfoInHistory(info: "значение сброшено")
-    }
-    
-    func formateDateToString(date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "dd.MM.yyyy HH:mm:ss"
-        return formatter.string(from: date)
-    }
-    
-    func addInfoInHistory(info: String) -> Void {
-        let additionInfo = "\(formateDateToString(date: Date())) - \(info)\n"
-        logsField.insertText(additionInfo)
     }
 }
 
